@@ -1,24 +1,27 @@
 package br.com.cartorio.dao;
 
 import br.com.cartorio.model.Cartorio;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.util.Calendar;
 import java.util.List;
 
-public class CartorioDAO implements DAO <Cartorio>{
+@Repository
+@Transactional
+public class CartorioDAO{
 
     @PersistenceContext
     private EntityManager manager;
 
-    @Transactional
     public void salvar(Cartorio entidade) {
+        entidade.setAdicionadoEm(Calendar.getInstance());
         manager.persist(entidade);
     }
 
-    @Transactional
     public void atualizar(Cartorio entidade) {
         entidade.setModificadoEm(Calendar.getInstance());
         manager.merge(entidade);
